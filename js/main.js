@@ -4,7 +4,9 @@ const photos = generatePhotos();
 
 export { photos };
 
-import { renderThumbnails } from './thumbnails.js';
+
 import { pictures } from './mock-data.js';
+import { renderThumbnails } from './thumbnails.js';
+import './big-picture.js';
 
 renderThumbnails(pictures);
