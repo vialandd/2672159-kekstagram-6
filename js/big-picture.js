@@ -10,6 +10,10 @@ const commentsLoader = bigPicture.querySelector('.comments-loader');
 
 const closeButton = bigPicture.querySelector('.big-picture__cancel');
 
+let currentComments = [];
+let shownComments = 0;
+const COMMENTS_PER_STEP = 5;
+
 function createComment(comment) {
   const li = document.createElement('li');
   li.classList.add('social__comment');
@@ -22,8 +26,24 @@ function createComment(comment) {
       width="35" height="35">
     <p class="social__text">${comment.message}</p>
   `;
-
   return li;
+}
+
+function renderComments() {
+  const fragment = document.createDocumentFragment();
+  const nextComments = currentComments.slice(shownComments, shownComments + COMMENTS_PER_STEP);
+
+  nextComments.forEach((comment) => fragment.appendChild(createComment(comment)));
+
+  commentsList.appendChild(fragment);
+
+  shownComments += nextComments.length;
+
+  commentCountBlock.textContent = `${shownComments} из ${currentComments.length} комментариев`;
+
+  if (shownComments >= currentComments.length) {
+    commentsLoader.classList.add('hidden');
+  }
 }
 
 export function openBigPicture(photo) {
@@ -35,16 +55,14 @@ export function openBigPicture(photo) {
   caption.textContent = photo.description;
 
   commentsList.innerHTML = '';
-  const fragment = document.createDocumentFragment();
 
-  photo.comments.forEach((comment) => {
-    fragment.appendChild(createComment(comment));
-  });
+  currentComments = photo.comments;
+  shownComments = 0;
 
-  commentsList.appendChild(fragment);
+  commentCountBlock.classList.remove('hidden');
+  commentsLoader.classList.remove('hidden');
 
-  commentCountBlock.classList.add('hidden');
-  commentsLoader.classList.add('hidden');
+  renderComments();
 
   bigPicture.classList.remove('hidden');
   document.body.classList.add('modal-open');
@@ -65,4 +83,5 @@ function onEscPress(evt) {
   }
 }
 
+commentsLoader.addEventListener('click', renderComments);
 closeButton.addEventListener('click', closeBigPicture);
