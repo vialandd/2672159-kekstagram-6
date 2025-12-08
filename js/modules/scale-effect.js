@@ -67,6 +67,16 @@ let currentScale = SCALE_DEFAULT;
 let currentEffect = 'none';
 let slider = null;
 
+const applyEffect = (value) => {
+  const { filter, unit } = EFFECTS[currentEffect];
+
+  if (currentEffect === 'none') {
+    imagePreview.style.filter = 'none';
+  } else {
+    imagePreview.style.filter = `${filter}(${value}${unit})`;
+  }
+};
+
 const updateScale = () => {
   scaleControl.value = `${currentScale}%`;
   const scaleValue = currentScale / 100;
@@ -100,6 +110,7 @@ const createSlider = () => {
   if (currentEffect === 'none') {
     effectLevel.classList.add('hidden');
     imagePreview.style.filter = 'none';
+    effectLevelValue.value = '';
     return;
   }
 
@@ -114,11 +125,7 @@ const createSlider = () => {
     },
     start,
     step,
-    connect: 'lower',
-    format: {
-      to: (value) => Number.isInteger(value) ? value : value.toFixed(1),
-      from: (value) => parseFloat(value)
-    }
+    connect: 'lower'
   });
 
   slider.on('update', () => {
@@ -126,16 +133,6 @@ const createSlider = () => {
     effectLevelValue.value = sliderValue;
     applyEffect(sliderValue);
   });
-};
-
-const applyEffect = (value) => {
-  const { filter, unit } = EFFECTS[currentEffect];
-
-  if (currentEffect === 'none') {
-    imagePreview.style.filter = 'none';
-  } else {
-    imagePreview.style.filter = `${filter}(${value}${unit})`;
-  }
 };
 
 const onEffectChange = (evt) => {

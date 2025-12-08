@@ -8,13 +8,13 @@ const hashtagField = form.querySelector('.text__hashtags');
 
 let pristine;
 
-const openForm = () => {
+const onFileInputChange = () => {
   overlay.classList.remove('hidden');
   body.classList.add('modal-open');
   document.addEventListener('keydown', onDocumentKeydown);
 };
 
-const closeForm = () => {
+const onCancelButtonClick = () => {
   overlay.classList.add('hidden');
   body.classList.remove('modal-open');
   document.removeEventListener('keydown', onDocumentKeydown);
@@ -30,14 +30,6 @@ const resetForm = () => {
   }
 };
 
-const onFileInputChange = () => {
-  openForm();
-};
-
-const onCancelButtonClick = () => {
-  closeForm();
-};
-
 const onFieldKeydown = (evt) => {
   if (evt.key === 'Escape') {
     evt.stopPropagation();
@@ -46,7 +38,10 @@ const onFieldKeydown = (evt) => {
 
 const onDocumentKeydown = (evt) => {
   if (evt.key === 'Escape' && !evt.target.matches('.text__description, .text__hashtags')) {
-    closeForm();
+    overlay.classList.add('hidden');
+    body.classList.remove('modal-open');
+    document.removeEventListener('keydown', onDocumentKeydown);
+    resetForm();
   }
 };
 
@@ -72,4 +67,4 @@ const initForm = (validationModule, scaleEffectModule) => {
   form.addEventListener('submit', onFormSubmit);
 };
 
-export { initForm, closeForm, resetForm };
+export { initForm };

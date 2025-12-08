@@ -1,3 +1,5 @@
+import Pristine from '../vendor/pristine/pristine.js';
+
 const HASHTAG_REGEX = /^#[a-zа-яё0-9]{1,19}$/i;
 const MAX_HASHTAGS = 5;
 const MAX_HASHTAG_LENGTH = 20;
@@ -68,9 +70,7 @@ const getHashtagErrorMessage = (value) => {
   return '';
 };
 
-const validateComment = (value) => {
-  return value.length <= MAX_COMMENT_LENGTH;
-};
+const validateComment = (value) => value.length <= MAX_COMMENT_LENGTH;
 
 const initValidation = (form) => {
   const pristine = new Pristine(form, {
