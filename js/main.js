@@ -10,3 +10,10 @@ import { renderThumbnails } from './thumbnails.js';
 import './big-picture.js';
 
 renderThumbnails(pictures);
+
+import { initForm } from './modules/form.js';
+import { initValidation } from './modules/validation.js';
+
+document.addEventListener('DOMContentLoaded', () => {
+  initForm({ initValidation });
+});
