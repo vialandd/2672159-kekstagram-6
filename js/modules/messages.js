@@ -11,17 +11,17 @@ const showMessage = (template) => {
   const message = template.cloneNode(true);
   document.body.appendChild(message);
 
-  const onDocumentKeydown = (evt) => {
+  function onDocumentKeydown(evt) {
     if (evt.key === 'Escape') {
       hideMessage(message, onDocumentClick, onDocumentKeydown);
     }
-  };
+  }
 
-  const onDocumentClick = (evt) => {
+  function onDocumentClick(evt) {
     if (!evt.target.closest('.success__inner') && !evt.target.closest('.error__inner')) {
       hideMessage(message, onDocumentClick, onDocumentKeydown);
     }
-  };
+  }
 
   const closeButton = message.querySelector('.success__button, .error__button');
   if (closeButton) {
