@@ -8,19 +8,6 @@ const hashtagField = form.querySelector('.text__hashtags');
 
 let pristine;
 
-const onFileInputChange = () => {
-  overlay.classList.remove('hidden');
-  body.classList.add('modal-open');
-  document.addEventListener('keydown', onDocumentKeydown);
-};
-
-const onCancelButtonClick = () => {
-  overlay.classList.add('hidden');
-  body.classList.remove('modal-open');
-  document.removeEventListener('keydown', onDocumentKeydown);
-  resetForm();
-};
-
 const resetForm = () => {
   form.reset();
   fileInput.value = '';
@@ -43,6 +30,19 @@ const onDocumentKeydown = (evt) => {
     document.removeEventListener('keydown', onDocumentKeydown);
     resetForm();
   }
+};
+
+const onFileInputChange = () => {
+  overlay.classList.remove('hidden');
+  body.classList.add('modal-open');
+  document.addEventListener('keydown', onDocumentKeydown);
+};
+
+const onCancelButtonClick = () => {
+  overlay.classList.add('hidden');
+  body.classList.remove('modal-open');
+  document.removeEventListener('keydown', onDocumentKeydown);
+  resetForm();
 };
 
 const onFormSubmit = (evt) => {

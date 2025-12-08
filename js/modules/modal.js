@@ -1,5 +1,12 @@
 const body = document.body;
 
+const closeModal = (modal) => {
+  modal.classList.add('hidden');
+  body.classList.remove('modal-open');
+
+  document.removeEventListener('keydown', onDocumentKeydown);
+};
+
 const onDocumentKeydown = (evt) => {
   if (evt.key === 'Escape') {
     const openModalElement = document.querySelector('.modal:not(.hidden)');
@@ -14,13 +21,6 @@ const openModal = (modal) => {
   body.classList.add('modal-open');
 
   document.addEventListener('keydown', onDocumentKeydown);
-};
-
-const closeModal = (modal) => {
-  modal.classList.add('hidden');
-  body.classList.remove('modal-open');
-
-  document.removeEventListener('keydown', onDocumentKeydown);
 };
 
 export { closeModal, openModal };
