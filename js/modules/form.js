@@ -80,9 +80,11 @@ const onFormSubmit = async (evt) => {
     await sendData(formData);
     showSuccessMessage();
     closeForm();
-  } catch {
+  }
+  catch {
     showErrorMessage();
-  } finally {
+  }
+  finally {
     unblockSubmitButton();
   }
 };

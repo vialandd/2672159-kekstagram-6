@@ -11,14 +11,14 @@ const showMessage = (template) => {
   const message = template.cloneNode(true);
   document.body.appendChild(message);
 
-  const onDocumentClick = (evt) => {
-    if (!evt.target.closest('.success__inner') && !evt.target.closest('.error__inner')) {
+  const onDocumentKeydown = (evt) => {
+    if (evt.key === 'Escape') {
       hideMessage(message, onDocumentClick, onDocumentKeydown);
     }
   };
 
-  const onDocumentKeydown = (evt) => {
-    if (evt.key === 'Escape') {
+  const onDocumentClick = (evt) => {
+    if (!evt.target.closest('.success__inner') && !evt.target.closest('.error__inner')) {
       hideMessage(message, onDocumentClick, onDocumentKeydown);
     }
   };
