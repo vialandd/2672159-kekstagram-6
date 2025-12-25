@@ -6,7 +6,7 @@ const pictureTemplate = document
   .content
   .querySelector('.picture');
 
-export const renderThumbnails = (data) => {
+const renderThumbnails = (data) => {
   const fragment = document.createDocumentFragment();
 
   data.forEach((picture) => {
@@ -29,3 +29,10 @@ export const renderThumbnails = (data) => {
   picturesContainer.appendChild(fragment);
 };
 
+const clearThumbnails = () => {
+  document.querySelectorAll('.picture').forEach((picture) => {
+    picture.remove();
+  });
+};
+
+export { renderThumbnails, clearThumbnails };
