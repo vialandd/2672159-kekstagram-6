@@ -7,11 +7,14 @@ import { showSuccessMessage, showErrorMessage } from './messages.js';
 const MAX_HASHTAGS_COUNT = 5;
 const MAX_COMMENT_LENGTH = 140;
 const VALID_HASHTAG_REGEX = /^#[a-zа-яё0-9]{1,19}$/i;
+const FILE_TYPES = ['jpg', 'jpeg', 'png'];
 
 const formElement = document.querySelector('.img-upload__form');
 const imageUploadOverlay = document.querySelector('.img-upload__overlay');
 const fileField = document.querySelector('.img-upload__input');
 const cancelButton = document.querySelector('.img-upload__cancel');
+const photoPreview = document.querySelector('.img-upload__preview img');
+const effectsPreviews = document.querySelectorAll('.effects__preview');
 const body = document.body;
 
 let hashtagsField = null;
@@ -96,6 +99,10 @@ const closeImageUploadOverlay = () => {
   }
   resetScale();
   resetEffects();
+  photoPreview.src = 'img/upload-default-image.jpg';
+  effectsPreviews.forEach((preview) => {
+    preview.style.backgroundImage = '';
+  });
   imageUploadOverlay.classList.add('hidden');
   body.classList.remove('modal-open');
 
@@ -210,6 +217,21 @@ const setupAccessibility = () => {
   commentField.setAttribute('aria-describedby', 'comment-error');
 };
 
+const onFileInputChange = () => {
+  const file = fileField.files[0];
+  const fileName = file.name.toLowerCase();
+
+  const matches = FILE_TYPES.some((it) => fileName.endsWith(it));
+
+  if (matches) {
+    photoPreview.src = URL.createObjectURL(file);
+    effectsPreviews.forEach((preview) => {
+      preview.style.backgroundImage = `url(${photoPreview.src})`;
+    });
+  }
+  openImageUploadOverlay();
+};
+
 const initImageUploadForm = () => {
   if (!formElement || !fileField) {
     return;
@@ -221,7 +243,7 @@ const initImageUploadForm = () => {
 
   setupAccessibility();
 
-  fileField.addEventListener('change', openImageUploadOverlay);
+  fileField.addEventListener('change', onFileInputChange);
 
   hashtagsField.addEventListener('keydown', onFieldKeydown);
   commentField.addEventListener('keydown', onFieldKeydown);
